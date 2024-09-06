@@ -1,19 +1,17 @@
-SIM ?= icarus
+# Makefile
+
+# defaults
+SIM ?= riviera
 TOPLEVEL_LANG ?= verilog
-VERILOG_SOURCES += $(PWD)/../hdl/or_gate.v
-VERILOG_SOURCES += $(PWD)/wrappers/or_test.v
-VERILOG_SOURCES += $(PWD)/wrappers/ifc_test.v
-VERILOG_SOURCES += $(PWD)/../hdl/ifc_or.v
-VERILOG_SOURCES += $(PWD)/../hdl/FIFO1.v
-VERILOG_SOURCES += $(PWD)/../hdl/FIFO2.v
-all: or ifc
-or:
-	rm -rf sim_build
-	$(MAKE) sim MODULE=or_test TOPLEVEL=or_test
-ifc:
-	rm -rf sim_build
-	$(MAKE) sim MODULE=ifc_test TOPLEVEL=ifc_test
-coverage:
-	rm -rf sim_build
-	$(MAKE) sim MODULE=ifc_coverage TOPLEVEL=ifc_test
+
+VERILOG_SOURCES += $(PWD)/design.sv
+# use VHDL_SOURCES for VHDL files
+
+# TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file
+TOPLEVEL = dut
+
+# MODULE is the basename of the Python test file
+MODULE = test
+
+# include cocotb's make rules to take care of the simulator setup
 include $(shell cocotb-config --makefiles)/Makefile.sim
